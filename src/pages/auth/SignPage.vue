@@ -1,7 +1,7 @@
 <template>
   <q-page class="flex flex-center">
     <q-card class="login-card q-pa-lg">
-      <div class="text-h5 text-weight-bold">Login to your account!</div>
+      <div class="text-h5 text-weight-bold">Create an account!</div>
       <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md q-mt-lg">
         <q-input
           filled
@@ -36,10 +36,26 @@
           </template>
         </q-input>
 
+        <q-input
+          filled
+          type="password"
+          v-model="password2"
+          label="Repeat your password *"
+          lazy-rules
+          :rules="[
+            (val) =>
+              val.length > 8 || 'Password must be higher than 8 characters',
+          ]"
+        >
+          <template v-slot:prepend>
+            <q-icon name="password" color="primary" />
+          </template>
+        </q-input>
+
         <div class="text-link">
           <p class="text-body1 text-weight-regular">
-            Don´t have an account.
-            <router-link :to="{ name: 'signin' }">Create one</router-link>
+            Already have an account.
+            <router-link :to="{ name: 'login' }">Login</router-link>
           </p>
         </div>
 
@@ -60,6 +76,11 @@ const $q = useQuasar();
 
 const email = ref(null);
 const password = ref(null);
+const password2 = ref(null);
+
+const validatePassword = (pass1, pass2) => {
+  return pass1 === pass2;
+};
 
 const onSubmit = () => {
   $q.notify({
@@ -73,6 +94,7 @@ const onSubmit = () => {
 const onReset = () => {
   email.value = null;
   password.value = null;
+  password2.value = null;
 };
 </script>
 

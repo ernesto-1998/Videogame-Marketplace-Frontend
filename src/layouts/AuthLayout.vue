@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh LpR lFf">
+  <q-layout view="lHh LpR lFf" class="bg-primary">
     <q-page-container>
       <router-view v-slot="{ Component }">
         <keep-alive>

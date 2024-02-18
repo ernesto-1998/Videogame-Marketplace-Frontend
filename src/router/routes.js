@@ -3,6 +3,7 @@ import IndexPage from "pages/general/IndexPage.vue";
 
 import AuthLayout from "layouts/AuthLayout.vue";
 import LoginPage from "pages/auth/LoginPage.vue";
+import SignPage from "pages/auth/SignPage.vue";
 
 const routes = [
   {
@@ -13,7 +14,10 @@ const routes = [
   {
     path: "/auth",
     component: () => AuthLayout,
-    children: [{ path: "login", component: () => LoginPage }],
+    children: [
+      { path: "login", name: "login", component: () => LoginPage },
+      { path: "signin", name: "signin", component: () => SignPage },
+    ],
   },
   {
     path: "/:catchAll(.*)*",
