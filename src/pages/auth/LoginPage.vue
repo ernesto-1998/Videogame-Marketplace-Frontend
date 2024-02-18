@@ -28,7 +28,7 @@
           lazy-rules
           :rules="[
             (val) =>
-              val.length > 8 || 'Password must be higher than 8 characters',
+              val.length > 7 || 'Password must be higher than 8 characters',
           ]"
         >
           <template v-slot:prepend>
@@ -46,6 +46,13 @@
         <div class="buttons-wrapper">
           <q-btn label="Submit" type="submit" color="primary" />
           <q-btn label="Reset" type="reset" color="secondary" class="q-ml-sm" />
+          <q-btn
+            label="Logout"
+            type="button"
+            @click="logout"
+            color="secondary"
+            class="q-ml-sm"
+          />
         </div>
       </q-form>
     </q-card>
@@ -53,26 +60,27 @@
 </template>
 
 <script setup>
-import { useQuasar } from "quasar";
 import { ref } from "vue";
 
-const $q = useQuasar();
+import { useAuthStore } from "src/stores/auth.store";
+
+const authStore = useAuthStore();
 
 const email = ref(null);
 const password = ref(null);
 
-const onSubmit = () => {
-  $q.notify({
-    color: "secondary",
-    textColor: "white",
-    icon: "cloud_done",
-    message: "Submitted",
-  });
+const onSubmit = async () => {
+  await authStore.login(email.value, password.value);
+  onReset();
 };
 
 const onReset = () => {
   email.value = null;
   password.value = null;
+};
+
+const logout = async () => {
+  await authStore.logout();
 };
 </script>
 

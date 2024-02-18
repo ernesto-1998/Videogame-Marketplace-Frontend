@@ -8,15 +8,15 @@ import SignPage from "pages/auth/SignPage.vue";
 const routes = [
   {
     path: "/",
-    component: () => IndexLayout,
-    children: [{ path: "", component: () => IndexPage }],
+    component: IndexLayout,
+    children: [{ path: "", component: IndexPage }],
   },
   {
     path: "/auth",
-    component: () => AuthLayout,
+    component: AuthLayout,
     children: [
-      { path: "login", name: "login", component: () => LoginPage },
-      { path: "signin", name: "signin", component: () => SignPage },
+      { path: "login", name: "login", component: LoginPage },
+      { path: "signin", name: "signin", component: SignPage },
     ],
   },
   {
