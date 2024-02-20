@@ -1,5 +1,8 @@
 import IndexLayout from "layouts/IndexLayout.vue";
-import IndexPage from "pages/general/IndexPage.vue";
+import IndexPage from "pages/index/IndexPage.vue";
+
+import DashboardLayout from "layouts/DashboardLayout.vue";
+import DashboardPage from "pages/dashboard/DashboardPage.vue";
 
 import AuthLayout from "layouts/AuthLayout.vue";
 import LoginPage from "pages/auth/LoginPage.vue";
@@ -9,14 +12,19 @@ const routes = [
   {
     path: "/",
     component: IndexLayout,
-    children: [{ path: "", component: IndexPage }],
+    children: [{ path: "", name: "home", component: IndexPage }],
+  },
+  {
+    path: "/dashboard",
+    component: DashboardLayout,
+    children: [{ path: "", name: "dashboard", component: DashboardPage }],
   },
   {
     path: "/auth",
     component: AuthLayout,
     children: [
       { path: "login", name: "login", component: LoginPage },
-      { path: "signin", name: "signin", component: SignPage },
+      { path: "signin", name: "signup", component: SignPage },
     ],
   },
   {

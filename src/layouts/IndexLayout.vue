@@ -1,33 +1,66 @@
 <template>
-  <q-layout view="lHh LpR lFf">
-    <q-header elevated class="bg-primary text-white">
+  <q-layout view="hHh lpR fFf">
+    <q-header elevated class="bg-primary text-white q-pa-md">
       <q-toolbar>
-        <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
-
-        <q-toolbar-title>
-          <q-avatar>
-            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg" />
-          </q-avatar>
-          Videogame Marketplace
-        </q-toolbar-title>
+        <header-brand
+          :icon-logo="'sports_esports'"
+          :app-brand-name="APP_BRAND_NAME"
+        />
+        <div class="buttons-wrapper row" v-if="!authStore.isUserActive">
+          <q-btn
+            flat
+            color="white"
+            label="Login"
+            icon="login"
+            :to="{ name: 'login' }"
+          />
+          <q-separator vertical inset />
+          <q-btn
+            flat
+            color="white"
+            label="Sign Up"
+            icon="person"
+            :to="{ name: 'signup' }"
+          />
+        </div>
+        <div class="buttons-wrapper row" v-if="authStore.isUserActive">
+          <q-btn
+            flat
+            color="white"
+            label="Dashboard"
+            icon="dashboard"
+            :to="{ name: 'dashboard' }"
+          />
+          <q-btn
+            @click="onLogout"
+            flat
+            color="white"
+            label="Logout"
+            icon="person"
+          />
+        </div>
       </q-toolbar>
     </q-header>
-
-    <q-drawer show-if-above v-model="leftDrawerOpen" side="left" elevated>
-      <!-- drawer content -->
-    </q-drawer>
 
     <q-page-container>
       <router-view />
     </q-page-container>
+
+    <q-footer elevated class="bg-primary text-white"></q-footer>
   </q-layout>
 </template>
 
 <script setup>
-import { ref } from "vue";
+// import { ref } from "vue";
+import { useAuthStore } from "src/stores/auth.store";
 
-const leftDrawerOpen = ref(false);
-const toggleLeftDrawer = () => {
-  leftDrawerOpen.value = !leftDrawerOpen.value;
+import HeaderBrand from "src/components/general/HeaderBrand.vue";
+
+const authStore = useAuthStore();
+
+const APP_BRAND_NAME = import.meta.env.VITE_APP_BRAND_NAME;
+
+const onLogout = async () => {
+  await authStore.logout();
 };
 </script>

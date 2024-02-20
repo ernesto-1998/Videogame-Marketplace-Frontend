@@ -62,6 +62,14 @@
         <div class="buttons-wrapper">
           <q-btn label="Submit" type="submit" color="primary" />
           <q-btn label="Reset" type="reset" color="secondary" class="q-ml-sm" />
+          <q-btn
+            flat
+            label="Go back!"
+            type="button"
+            :to="{ name: 'home' }"
+            color="secondary"
+            class="q-ml-sm"
+          />
         </div>
       </q-form>
     </q-card>

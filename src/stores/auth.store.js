@@ -18,6 +18,9 @@ export const useAuthStore = defineStore("auth", {
   state: () => ({
     user: verifyStorage(),
   }),
+  getters: {
+    isUserActive: (state) => state.user !== null,
+  },
   actions: {
     async login(email, password) {
       try {

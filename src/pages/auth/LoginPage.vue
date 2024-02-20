@@ -39,7 +39,7 @@
         <div class="text-link">
           <p class="text-body1 text-weight-regular">
             Don´t have an account.
-            <router-link :to="{ name: 'signin' }">Create one</router-link>
+            <router-link :to="{ name: 'signup' }">Create one</router-link>
           </p>
         </div>
 
@@ -47,9 +47,10 @@
           <q-btn label="Submit" type="submit" color="primary" />
           <q-btn label="Reset" type="reset" color="secondary" class="q-ml-sm" />
           <q-btn
-            label="Logout"
+            flat
+            label="Go back!"
             type="button"
-            @click="logout"
+            :to="{ name: 'home' }"
             color="secondary"
             class="q-ml-sm"
           />
@@ -61,10 +62,11 @@
 
 <script setup>
 import { ref } from "vue";
-
+import { useRouter } from "vue-router";
 import { useAuthStore } from "src/stores/auth.store";
 
 const authStore = useAuthStore();
+const router = useRouter();
 
 const email = ref(null);
 const password = ref(null);
@@ -72,15 +74,12 @@ const password = ref(null);
 const onSubmit = async () => {
   await authStore.login(email.value, password.value);
   onReset();
+  if (authStore.isUserActive) router.push("/");
 };
 
 const onReset = () => {
   email.value = null;
   password.value = null;
-};
-
-const logout = async () => {
-  await authStore.logout();
 };
 </script>
 
