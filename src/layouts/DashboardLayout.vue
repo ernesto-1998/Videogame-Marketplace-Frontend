@@ -20,8 +20,14 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer show-if-above v-model="leftDrawerOpen" side="left" bordered>
-      <!-- drawer content -->
+    <q-drawer
+      show-if-above
+      v-model="leftDrawerOpen"
+      class="bg-primary"
+      side="left"
+      bordered
+    >
+      <drawer-content :profile-pic="profile_pic" />
     </q-drawer>
 
     <q-page-container>
@@ -37,13 +43,32 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onBeforeMount } from "vue";
+import { useProfileStore } from "src/stores/profile.store";
+import { storageFunctions, blankUserRef } from "src/firebase/firebase";
 
 import HeaderBrand from "src/components/general/HeaderBrand.vue";
+import DrawerContent from "src/components/dashboard/DrawerContent.vue";
 
+onBeforeMount(async () => {
+  await getProfilePic();
+});
+
+const profileStore = useProfileStore();
 const APP_BRAND_NAME = import.meta.env.VITE_APP_BRAND_NAME;
-
 const leftDrawerOpen = ref(false);
+
+const profile_pic = ref(null);
+
+const getProfilePic = async () => {
+  if (profileStore.getProfileExists) {
+    profile_pic.value = profileStore.profile["profile_pic"];
+  } else {
+    const url = await storageFunctions.getFile(blankUserRef);
+    profile_pic.value = url;
+    console.log(url);
+  }
+};
 
 const toggleLeftDrawer = () => {
   leftDrawerOpen.value = !leftDrawerOpen.value;

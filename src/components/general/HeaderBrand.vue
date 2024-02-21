@@ -11,7 +11,8 @@
 const props = defineProps({
   appBrandName: {
     type: String,
-    required: true,
+    required: false,
+    default: "VG Marketplace",
   },
   iconLogo: {
     type: String,

@@ -3,6 +3,8 @@ import { AUTH } from "src/enums/notify.messages";
 import fetchWrapper from "src/helpers/fetch.wrapper";
 import { errorNotify, successNotify } from "src/helpers/quasar.notify";
 
+import { useProfileStore } from "src/stores/profile.store";
+
 const baseUrl = `${import.meta.env.VITE_API_URL}/users`;
 
 const verifyStorage = () => {
@@ -23,6 +25,7 @@ export const useAuthStore = defineStore("auth", {
   },
   actions: {
     async login(email, password) {
+      const profileStore = useProfileStore();
       try {
         const res = await fetchWrapper.post(`${baseUrl}/login`, {
           email,
@@ -34,6 +37,7 @@ export const useAuthStore = defineStore("auth", {
           const user = await res.json();
           this.user = user.data;
           localStorage.setItem("user", JSON.stringify(user.data));
+          await profileStore.setUserProfile();
           successNotify(AUTH.LOGING_SUCCESS);
         }
       } catch (error) {
