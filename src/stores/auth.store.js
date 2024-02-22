@@ -58,5 +58,10 @@ export const useAuthStore = defineStore("auth", {
         errorNotify(error.message);
       }
     },
+    lightLogout() {
+      this.user = null;
+      localStorage.removeItem("user");
+      successNotify(AUTH.LOGOUT_SUCCESS);
+    },
   },
 });
