@@ -31,14 +31,7 @@
             icon="dashboard"
             :to="{ name: 'dashboard' }"
           />
-          <q-btn
-            @click="onLogout"
-            flat
-            color="white"
-            label="Logout"
-            icon="person"
-          />
-          <header-user-menu />
+          <header-user-menu @on-logout="onLogout" :user="user" />
         </div>
       </q-toolbar>
     </q-header>
@@ -52,17 +45,40 @@
 </template>
 
 <script setup>
-// import { ref } from "vue";
+import { onBeforeMount, ref } from "vue";
 import { useAuthStore } from "src/stores/auth.store";
+import { useProfileStore } from "src/stores/profile.store";
+import { storageFunctions, blankUserRef } from "src/firebase/firebase";
 
 import HeaderBrand from "src/components/general/HeaderBrand.vue";
 import HeaderUserMenu from "src/components/general/HeaderUserMenu.vue";
 
 const authStore = useAuthStore();
+const profileStore = useProfileStore();
+
+onBeforeMount(async () => {
+  await getUserInfo();
+});
 
 const APP_BRAND_NAME = import.meta.env.VITE_APP_BRAND_NAME;
+const user = ref({});
 
 const onLogout = async () => {
   await authStore.logout();
+};
+
+const getProfilePic = async () => {
+  const url = await storageFunctions.getFile(blankUserRef);
+  return url;
+};
+
+const getUserInfo = async () => {
+  if (profileStore.getProfileExists) {
+    user.value = profileStore.profile;
+  } else {
+    user.value = {
+      profile_pic: await getProfilePic(),
+    };
+  }
 };
 </script>

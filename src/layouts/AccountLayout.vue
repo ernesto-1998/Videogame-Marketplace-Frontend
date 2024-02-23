@@ -55,10 +55,10 @@ onBeforeMount(async () => {
 });
 
 const profileStore = useProfileStore();
-const APP_BRAND_NAME = import.meta.env.VITE_APP_BRAND_NAME;
+const APP_BRAND_NAME = "Account Settings";
 const leftDrawerOpen = ref(false);
 
-const profile_pic = ref(null);
+const profile_pic = ref("");
 
 const getProfilePic = async () => {
   if (profileStore.getProfileExists) {

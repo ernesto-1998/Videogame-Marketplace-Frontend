@@ -2,10 +2,13 @@
   <router-view />
 </template>
 
-<script>
-import { defineComponent } from "vue";
+<script setup>
+import { onBeforeMount } from "vue";
+import { useProfileStore } from "src/stores/profile.store";
 
-export default defineComponent({
-  name: "App",
+const profileStore = useProfileStore();
+
+onBeforeMount(async () => {
+  await profileStore.setUserProfile();
 });
 </script>

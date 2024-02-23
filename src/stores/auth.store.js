@@ -36,7 +36,7 @@ export const useAuthStore = defineStore("auth", {
         await profileStore.setUserProfile();
         successNotify(AUTH.LOGING_SUCCESS);
       } catch (error) {
-        errorNotify(error.message);
+        errorNotify(error);
       }
     },
     async logout() {
@@ -46,13 +46,12 @@ export const useAuthStore = defineStore("auth", {
         localStorage.removeItem("user");
         successNotify(AUTH.LOGOUT_SUCCESS);
       } catch (error) {
-        errorNotify(error.message);
+        errorNotify(error);
       }
     },
     lightLogout() {
       this.user = null;
       localStorage.removeItem("user");
-      // successNotify(AUTH.LOGOUT_SUCCESS);
     },
   },
 });

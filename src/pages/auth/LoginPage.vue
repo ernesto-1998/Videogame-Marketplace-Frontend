@@ -68,8 +68,8 @@ import { useAuthStore } from "src/stores/auth.store";
 const authStore = useAuthStore();
 const router = useRouter();
 
-const email = ref(null);
-const password = ref(null);
+const email = ref("");
+const password = ref("");
 
 const onSubmit = async () => {
   await authStore.login(email.value, password.value);

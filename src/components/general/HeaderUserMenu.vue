@@ -1,29 +1,44 @@
 <template>
   <div class="q-pa-md">
     <q-btn color="purple" label="Account Settings">
-      <q-menu>
+      <q-menu class="text-white bg-primary">
         <div class="row no-wrap q-pa-md">
           <div class="column">
             <div class="text-h6 q-mb-md">Settings</div>
-            <q-toggle v-model="mobileData" label="Use Mobile Data" />
-            <q-toggle v-model="bluetooth" label="Bluetooth" />
+            <q-list bordered separator>
+              <q-item :to="{ name: 'profile' }" clickable v-ripple>
+                <q-item-section>Profile</q-item-section>
+              </q-item>
+
+              <q-item clickable v-ripple>
+                <q-item-section>
+                  <q-item-label>Address</q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
           </div>
 
           <q-separator vertical inset class="q-mx-lg" />
 
           <div class="column items-center">
             <q-avatar size="72px">
-              <img src="https://cdn.quasar.dev/img/avatar4.jpg" />
+              <img :src="props.user.profile_pic" />
             </q-avatar>
 
-            <div class="text-subtitle1 q-mt-md q-mb-xs">John Doe</div>
+            <div
+              v-if="props.user.name && props.user.lastname"
+              class="text-subtitle1 q-mt-md"
+            >
+              {{ `${props.user.name} ${props.user.lastname}` }}
+            </div>
 
             <q-btn
-              color="primary"
+              @click="$emit('on-logout')"
+              flat
+              class="bg-secondary q-mt-md"
+              color="white"
+              size="md"
               label="Logout"
-              push
-              size="sm"
-              v-close-popup
             />
           </div>
         </div>
@@ -32,6 +47,11 @@
   </div>
 </template>
 
-<script setup></script>
-
-<style scoped></style>
+<script setup>
+const props = defineProps({
+  user: {
+    type: Object,
+    required: true,
+  },
+});
+</script>

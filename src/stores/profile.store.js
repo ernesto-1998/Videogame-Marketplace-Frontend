@@ -43,49 +43,40 @@ export const useProfileStore = defineStore("profile", {
           this.profile = profile.data;
         } catch (error) {
           this.cleanProfile();
-          errorNotify(error.message);
+          errorNotify(error);
         }
       } else {
-        errorNotify(AUTH.NO_CONTENT);
+        return;
       }
     },
-    // async createUserProfile(body) {
-    //   if (this.authStore.isUserActive) {
-    //     try {
-    //       const res = await fetchWrapper.post(`${baseUrl}`, { ...body });
-    //       if (!res.ok) {
-    //         throw new Error(res.statusText);
-    //       } else {
-    //         const profile = await res.json();
-    //         if (
-    //           profile["profile_pic"] === undefined ||
-    //           profile["profile_pic"] === null
-    //         ) {
-    //           profile["profile_pic"] = await getBlankUserImage();
-    //         }
-    //         this.profile = profile;
-    //       }
-    //     } catch (error) {
-    //       errorNotify(error.message);
-    //     }
-    //   } else {
-    //     errorNotify(AUTH.NO_CONTENT);
-    //   }
-    // },
-    // async deleteUserProfile(profileId) {
-    //   if (this.authStore.isUserActive) {
-    //     try {
-    //       const res = await fetchWrapper.delete(`${baseUrl}`);
-    //       if (!res.ok) {
-    //         throw new Error(res.statusText);
-    //       } else {
-    //         this.cleanUser();
-    //         successNotify(PROFILE.DELETE);
-    //       }
-    //     } catch (error) {
-    //       errorNotify(error.message);
-    //     }
-    //   }
-    // },
+    async createUserProfile(body) {
+      if (this.authStore.isUserActive) {
+        try {
+          const profile = await fetchWrapper.post(`${baseUrl}`, { ...body });
+          if (
+            profile.data["profile_pic"] === undefined ||
+            profile.data["profile_pic"] === null
+          ) {
+            profile.data["profile_pic"] = await getBlankUserImage();
+          }
+          this.profile = profile.data;
+        } catch (error) {
+          errorNotify(error);
+        }
+      } else {
+        return;
+      }
+    },
+    async deleteUserProfile(profileId) {
+      if (this.authStore.isUserActive) {
+        try {
+          const profile = await fetchWrapper.delete(`${baseUrl}`);
+          this.cleanUser();
+          successNotify(PROFILE.DELETE);
+        } catch (error) {
+          errorNotify(error);
+        }
+      }
+    },
   },
 });
