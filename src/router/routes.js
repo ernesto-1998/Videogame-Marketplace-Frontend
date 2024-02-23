@@ -1,6 +1,9 @@
 import IndexLayout from "layouts/IndexLayout.vue";
 import IndexPage from "pages/index/IndexPage.vue";
 
+import AccountLayout from "layouts/AccountLayout.vue";
+import ProfilePage from "pages/account/ProfilePage.vue";
+
 import DashboardLayout from "layouts/DashboardLayout.vue";
 import DashboardPage from "pages/dashboard/DashboardPage.vue";
 
@@ -15,6 +18,11 @@ const routes = [
     children: [{ path: "", name: "home", component: IndexPage }],
   },
   {
+    path: "/account",
+    component: AccountLayout,
+    children: [{ path: "profile", name: "profile", component: ProfilePage }],
+  },
+  {
     path: "/dashboard",
     component: DashboardLayout,
     children: [{ path: "", name: "dashboard", component: DashboardPage }],
@@ -24,7 +32,7 @@ const routes = [
     component: AuthLayout,
     children: [
       { path: "login", name: "login", component: LoginPage },
-      { path: "signin", name: "signup", component: SignPage },
+      { path: "signup", name: "signup", component: SignPage },
     ],
   },
   {

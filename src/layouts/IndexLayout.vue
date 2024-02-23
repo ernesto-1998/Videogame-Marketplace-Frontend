@@ -38,6 +38,7 @@
             label="Logout"
             icon="person"
           />
+          <header-user-menu />
         </div>
       </q-toolbar>
     </q-header>
@@ -55,6 +56,7 @@
 import { useAuthStore } from "src/stores/auth.store";
 
 import HeaderBrand from "src/components/general/HeaderBrand.vue";
+import HeaderUserMenu from "src/components/general/HeaderUserMenu.vue";
 
 const authStore = useAuthStore();
 
